@@ -1,0 +1,190 @@
+@import url(fontiran.css);
+
+:root {
+    --dark_blue: #57Ba98;
+    --light_green: #2E9CCA;
+    --border_green: #65CCB8;
+    --black_ccc: #182628;
+    --sormeiei: #2d4159;
+    --my_light_gray: lightgray;
+}
+
+body {
+    font-family: IRANSans;
+    direction: rtl;
+}
+
+body h1, h2, h3, h4, h5, h6, label, button, input, a, th, td {
+    font-family: IRANSans !important;
+}
+
+.ccc_login_container {
+    background-color: var(--dark_blue);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 180px;
+    min-height: 100vh;
+}
+
+.ccc_login_wrapper {
+    width: 960px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding: 80px 95px 45px 15px;
+    direction: ltr;
+}
+
+.ccc_login_image_wrapper img {
+    width: 80%;
+    margin: 20px auto;
+    display: block;
+}
+
+.ccc_login_form form {
+    direction: rtl;
+    text-align: right;
+}
+
+.ccc_login_title {
+    text-align: center;
+    margin: 0 0 50px 0;
+}
+
+.ccc_input_icon {
+    position: absolute;
+    top: 16px;
+    left: 22px;
+    color: var(--dark_blue);
+}
+
+.ccc_login_form .form-group {
+    position: relative;
+}
+
+.ccc_login_button {
+    width: 100%;
+    -webkit-border-radius: 35px !important;
+    -moz-border-radius: 35px !important;
+    border-radius: 35px !important;
+    height: 50px;
+    margin-top: 20px;
+    background-color: var(--light_green) !important;
+    border-color: var(--light_green) !important;
+}
+
+.ccc_login_form .form-control {
+    height: 50px;
+    border-radius: 30px;
+}
+
+.ccc_navbar_dashboard {
+    background-color: var(--sormeiei);
+    height: 80px;
+    border-bottom: 1px solid var(--border_green);
+    border-top: 8px solid var(--dark_blue);
+}
+
+.navbar-brand img {
+    width: 60px;
+    margin: auto;
+}
+
+.nav-link {
+    color: white;
+}
+
+.tooltip {
+    font-family: IRANSans !important;
+}
+
+.ccc_text_holder {
+    border: 2px solid white;
+    border-radius: 5px;
+    margin: 0 20px 0 20px;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    color: white !important;
+    font-size: 13px;
+}
+
+.navbar-text {
+    color: white !important;
+    margin-right: 40px;
+    margin-left: 30px;
+}
+
+.ccc_dashboard_nav {
+    border-bottom: 1px solid var(--my_light_gray);
+    padding: 45px 0 20px 0;
+}
+
+.ccc_dashboard_nav_shortcut_image {
+    width: 70px;
+    display: block;
+    margin: auto;
+}
+
+.ccc_dashboard_nav_shortcut_text {
+    text-align: center;
+    color: var(--sormeiei);
+    font-size: 13px;
+    margin-top: 14px;
+}
+
+.ccc_shortcut_box:hover a {
+    text-decoration: none;
+}
+
+.ccc_shortcut_box:hover {
+    border-bottom: 2px solid #f9a528;
+}
+
+.ccc_shortcut_box.active {
+    border-bottom: 2px solid #f9a528;
+}
+
+.ccc_content_holder {
+    margin-top: 40px;
+}
+
+.ccc_content_holder .card {
+    padding: 30px;
+}
+
+.vps_list_table thead tr th {
+    border-top: none;
+    border-bottom: 3px double #dee2e6 !important;
+}
+
+.vps_list_table {
+    direction: rtl;
+    text-align: right;
+}
+
+.vps_list_table thead {
+    font-size: 14px;
+}
+
+.vps_list_table tbody {
+    font-size: 14px;
+}
+
+.ccc_table_button {
+    font-size: 11px !important;
+    width: 100%;
+    background-color: #9E5A63 !important;
+    border-color: #9E5A63 !important;
+}

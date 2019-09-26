@@ -1,0 +1,27 @@
+<div class="ccc_login_container" ng-controller="loginCtrl">
+    <div class="ccc_login_wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1 col-sm-12"></div>
+                <div class="col-md-5 col-sm-12 ccc_login_image_wrapper">
+                    <img class="img-fluid" src="static/src/img/computer.png">
+                </div>
+                <div class="col-md-1 col-sm-12"></div>
+                <div class="col-md-5 col-sm-12 ccc_login_form">
+                    <form>
+                        <h3 class="ccc_login_title">ورود کاربران</h3>
+                        <div class="form-group">
+                            <input ng-model="user_login_data.username" placeholder="نام کاربری" type="text" class="form-control" id="username">
+                            <i class="fa fa-envelope ccc_input_icon" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group">
+                            <input ng-model="user_login_data.password" placeholder="رمز عبور" type="password" class="form-control" id="pwd">
+                            <i class="fa fa-lock ccc_input_icon" aria-hidden="true"></i>
+                        </div>
+                        <button type="submit" ng-click="send_login_data()" class="btn btn-primary ccc_login_button">ورود</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

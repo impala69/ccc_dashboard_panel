@@ -1,0 +1,66 @@
+<div ng-controller="dashboardCtrl">
+    <nav class="navbar navbar-expand-lg ccc_navbar_dashboard">
+        <a class="navbar-brand" href=""><img class="img-fluid" src="src/img/cloud.png"></a>
+        <a class="navbar-text">پنل مدیریتی مرکز پردازش ابری</a>
+        <a class="nav-link ccc_text_holder" href="">تنظیمات کاربری</a>
+        <a class="nav-link ccc_text_holder" href="" data-toggle="tooltip" title="خروج"><i class="fa fa-power-off"></i></a>
+        <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
+                data-target="#navb" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="navb" style="">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link ccc_text_holder" ng-bind="clock | date:'HH:mm' | persianNumber">۱۱:۵۲</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link ccc_text_holder" ng-bind="get_today_var | persianNumber">سه شنبه ۲۷ شهریور</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="ccc_dashboard_nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 col-sm-6 ccc_shortcut_box">
+                    <a class="" ui-sref="dashboard.vps_list">
+                        <img class="img-fluid ccc_dashboard_nav_shortcut_image" src="static/src/img/shortcut1.png">
+                        <p class="ccc_dashboard_nav_shortcut_text">لیست سرورها</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-sm-6 ccc_shortcut_box">
+                    <a class="" href="">
+                        <img class="img-fluid ccc_dashboard_nav_shortcut_image" src="static/src/img/server.png">
+                        <p class="ccc_dashboard_nav_shortcut_text">تغییر سرورها</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-sm-6 ccc_shortcut_box">
+                    <a class="" href="">
+                        <img class="img-fluid ccc_dashboard_nav_shortcut_image" src="static/src/img/dns.png">
+                        <p class="ccc_dashboard_nav_shortcut_text">سرویس DNS</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-sm-6 ccc_shortcut_box">
+                    <a class="" href="">
+                        <img class="img-fluid ccc_dashboard_nav_shortcut_image" src="static/src/img/networking.png">
+                        <p class="ccc_dashboard_nav_shortcut_text">شبکه</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-sm-6 ccc_shortcut_box">
+                    <a class="" href="">
+                        <img class="img-fluid ccc_dashboard_nav_shortcut_image" src="static/src/img/data.png">
+                        <p class="ccc_dashboard_nav_shortcut_text">حریم شخصی</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-sm-6 ccc_shortcut_box">
+                    <a class="" href="">
+                        <img class="img-fluid ccc_dashboard_nav_shortcut_image" src="static/src/img/car.png">
+                        <p class="ccc_dashboard_nav_shortcut_text">رمز عبور</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ui-view></ui-view>

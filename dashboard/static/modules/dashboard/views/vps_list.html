@@ -1,0 +1,30 @@
+<div ng-controller="vpsCtrl" class="ccc_content_holder">
+    <div class="container">
+        <div class="card">
+            <table class="table table-hover vps_list_table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>آی پی</th>
+                    <th>نام سرور</th>
+                    <th>نام تصویر</th>
+                    <th>نام کلید</th>
+                    <th>زمان ساخت</th>
+                    <th>حذف</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="vps in vps_list">
+                    <td>{{ $index | persianNumber }}</td>
+                    <td>{{ vps.ip_addr | persianNumber }}</td>
+                    <td>{{ vps.instance_name }}</td>
+                    <td>{{ vps.image_name }}</td>
+                    <td>{{ vps.key_name }}</td>
+                    <td>{{ vps.created }}</td>
+                    <td><button class="btn btn-primary ccc_table_button">حذف سرور</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
