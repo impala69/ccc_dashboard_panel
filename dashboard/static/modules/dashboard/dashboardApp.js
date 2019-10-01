@@ -33,9 +33,23 @@ myApp.config(function ($stateProvider, $authProvider) {
         templateUrl: 'static/modules/dashboard/views/vps_list.html'
     };
 
+    var overview = {
+        name: 'dashboard.overview',
+        url: '/overview',
+        templateUrl: 'static/modules/dashboard/views/overview.html'
+    };
+
+    var key_pairs = {
+        name: 'dashboard.key_pairs',
+        url: '/key_pairs',
+        templateUrl: 'static/modules/dashboard/views/key_pairs.html'
+    };
+
     $stateProvider.state(login);
     $stateProvider.state(dashboard);
     $stateProvider.state(vps_list);
+    $stateProvider.state(overview);
+    $stateProvider.state(key_pairs);
 });
 
 angular.module("dashboard")

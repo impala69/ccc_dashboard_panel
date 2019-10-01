@@ -1,0 +1,80 @@
+<div ng-controller="overviewCtrl" class="ccc_content_holder">
+    <div class="container">
+        <div class="row overview_section">
+            <div class="card col-md-4 col-sm-12">
+                <table class="table table-hover vps_list_table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>میزان مصرفی</th>
+                        <th>میزان کلی</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>ماشین ها</td>
+                        <td>{{ overview_data.totalInstancesUsed | persianNumber }}</td>
+                        <td>{{ overview_data.maxTotalInstances | persianNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td>VCPUs</td>
+                        <td>{{ overview_data.totalCoresUsed | persianNumber }}</td>
+                        <td>{{ overview_data.maxTotalCores | persianNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td>RAM (GB)</td>
+                        <td>{{ overview_data.totalRAMUsed / 1024 | persianNumber }}</td>
+                        <td>{{ overview_data.maxTotalRAMSize / 1024 | persianNumber }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card col-md-4 col-sm-12">
+                <table class="table table-hover vps_list_table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>میزان مصرفی</th>
+                        <th>میزان کلی</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Volumes</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Volume Snapshots</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Volume Storage</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card col-md-4 col-sm-12">
+                <table class="table table-hover vps_list_table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>میزان مصرفی</th>
+                        <th>میزان کلی</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Floating IPs</td>
+                        <td>{{ overview_data.totalFloatingIpsUsed | persianNumber }}</td>
+                        <td>{{ overview_data.maxTotalFloatingIps | persianNumber }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

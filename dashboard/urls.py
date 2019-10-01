@@ -1,10 +1,13 @@
-from django.conf.urls import url
+from django.urls import path
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    url(r'auth/login/', views.Login.as_view()),
-    url(r'vps/', views.VPS.as_view()),
+    path('auth/login/', views.Login.as_view()),
+    path('vps/', views.VPS.as_view()),
+    path('get_overview/', views.Overview.as_view()),
+    path('keypairs/', views.KeyPairs.as_view()),
+    path('keypairs/<str:name>/', views.KeyPairDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

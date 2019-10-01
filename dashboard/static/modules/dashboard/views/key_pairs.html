@@ -1,0 +1,49 @@
+<div ng-controller="keypairsCtrl" class="ccc_content_holder">
+    <div class="modal" tabindex="-1" role="dialog" id="keypair_detail">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">جزییات کلید امنیتی</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><span class="font-weight-bold">ID</span> : {{ keypair.id }}</p>
+                    <p><span class="font-weight-bold">Name</span> : {{ keypair.name }}</p>
+                    <p><span class="font-weight-bold">Fingerprint</span> : {{ keypair.fingerprint }}</p>
+                    <p><span class="font-weight-bold">Created</span> : {{ keypair.created_at }}</p>
+                    <p><span class="font-weight-bold">User ID</span> : {{ keypair.user_id }}</p>
+                    <p class="public_key"><span class="font-weight-bold">Public Key</span> : {{ keypair.public_key }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <table class="table table-hover vps_list_table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>نام</th>
+                    <th>Fingerprint</th>
+                    <th>حذف</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="key in keypairs">
+                    <td>{{ $index + 1 | persianNumber }}</td>
+                    <td><a href="" ng-click="show_keypair_detail(key.keypair.name)">{{ key.keypair.name | persianNumber }}</a></td>
+                    <td>{{ key.keypair.fingerprint }}</td>
+                    <td>
+                        <button class="btn btn-primary ccc_table_button">حذف</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
