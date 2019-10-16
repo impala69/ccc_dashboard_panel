@@ -1,9 +1,9 @@
-<div ng-controller="keypairsCtrl" class="ccc_content_holder">
-    <div class="modal" tabindex="-1" role="dialog" id="keypair_delete">
+<div ng-controller="volumeCtrl" class="ccc_content_holder">
+    <div class="modal" tabindex="-1" role="dialog" id="volume_delete">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">حذف کلید امنیتی</h5>
+                    <h5 class="modal-title">حذف حافظه</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -12,29 +12,28 @@
                     <p class="text-right">آیا اطمینان به حذف دارید؟</p>
                 </div>
                 <div class="modal-footer">
-                    <button ng-click="delete_keypair()" type="button" class="btn btn-success modal-submit" data-dismiss="modal">بله</button>
+                    <button ng-click="delete_volume()" type="button" class="btn btn-success modal-submit" data-dismiss="modal">بله</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal" tabindex="-1" role="dialog" id="keypair_detail">
+    <div class="modal" tabindex="-1" role="dialog" id="volume_detail">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">جزییات کلید امنیتی</h5>
+                    <h5 class="modal-title">جزییات حافظه</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><span class="font-weight-bold">ID</span> : {{ keypair.id }}</p>
-                    <p><span class="font-weight-bold">Name</span> : {{ keypair.name }}</p>
-                    <p><span class="font-weight-bold">Fingerprint</span> : {{ keypair.fingerprint }}</p>
-                    <p><span class="font-weight-bold">Created</span> : {{ keypair.created_at }}</p>
-                    <p><span class="font-weight-bold">User ID</span> : {{ keypair.user_id }}</p>
-                    <p class="public_key"><span class="font-weight-bold">Public Key</span> : {{ keypair.public_key }}
-                    </p>
+                    <p><span class="font-weight-bold">ID</span> : {{ volume.id }}</p>
+                    <p><span class="font-weight-bold">Name</span> : {{ volume.displayName }}</p>
+                    <p><span class="font-weight-bold">Status</span> : {{ volume.status }}</p>
+                    <hr>
+                    <p><span class="font-weight-bold">Size</span> : {{ volume.size }}</p>
+                    <p><span class="font-weight-bold">Created</span> : {{ volume.createdAt }}</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
@@ -42,11 +41,11 @@
             </div>
         </div>
     </div>
-    <div class="modal" tabindex="-1" role="dialog" id="keypair_create">
+    <div class="modal" tabindex="-1" role="dialog" id="volume_create">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">ساخت کلید امنیتی</h5>
+                    <h5 class="modal-title">ساخت حافظه</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -54,10 +53,18 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label>نام کلید</label>
-                            <input ng-model="new_keypair_data.name" type="text" class="form-control" placeholder="نام کلید">
+                            <label>نام حافظه</label>
+                            <input ng-model="new_volume_data.name" type="text" class="form-control" placeholder="نام حافظه">
                         </div>
-                        <button ng-click="create_keypair()" type="submit" class="btn btn-primary submit-btn">بساز!</button>
+                        <div class="form-group">
+                            <label>نوضیحات حافظه</label>
+                            <input ng-model="new_volume_data.description" type="text" class="form-control" placeholder="نوضیحات حافظه">
+                        </div>
+                        <div class="form-group">
+                            <label>اندازه</label>
+                            <input ng-model="new_volume_data.size" type="number" class="form-control" placeholder="اندازه حافظه">
+                        </div>
+                        <button ng-click="create_volume()" type="submit" class="btn btn-primary submit-btn">بساز!</button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -69,7 +76,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <button ng-click="open_modal('keypair_create')" class="btn btn-success create-btn">ساختن کلید جدید</button>
+                <button ng-click="open_modal('volume_create')" class="btn btn-success create-btn">ساختن حافظه جدید</button>
             </div>
         </div>
         <div class="row table-section">
@@ -80,19 +87,25 @@
                 <tr>
                     <th>#</th>
                     <th>نام</th>
-                    <th>Fingerprint</th>
+                    <th>توضیحات</th>
+                    <th>اندازه ( گیگابایت )</th>
+                    <th>وضعیت</th>
+                    <th>در دسترس بودن</th>
                     <th>حذف</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="key in keypairs">
+                <tr ng-repeat="vol in volumes">
                     <td>{{ $index + 1 | persianNumber }}</td>
                     <td><a href=""
-                           ng-click="show_keypair_detail(key.keypair.name)">{{ key.keypair.name | persianNumber }}</a>
+                           ng-click="show_volume_detail(vol.id)">{{ vol.displayName | persianNumber }}</a>
                     </td>
-                    <td>{{ key.keypair.fingerprint }}</td>
+                    <td>{{ vol.displayDescription }}</td>
+                    <td>{{ vol.size | persianNumber}}</td>
+                    <td>{{ vol.status }}</td>
+                    <td>{{ vol.availabilityZone }}</td>
                     <td>
-                        <button ng-click="open_permission_modal('keypair_delete', key.keypair.name)" class="btn btn-primary ccc_table_button">حذف</button>
+                        <button ng-click="open_permission_modal('volume_delete', vol.id)" class="btn btn-primary ccc_table_button">حذف</button>
                     </td>
                 </tr>
                 </tbody>

@@ -12,5 +12,8 @@ class HorizonServiceAPI:
         return requests.get(self.url, headers=self.headers, cookies=self.cookies)
 
     def post_request_handler(self):
-        return requests.post(self.url, headers=self.headers, data=self.payload,
+        return requests.post(self.url, headers=self.headers, json=self.payload,
                              cookies=self.cookies)
+
+    def delete_request_handler(self):
+        return requests.delete(self.url, headers=self.headers, cookies=self.cookies)

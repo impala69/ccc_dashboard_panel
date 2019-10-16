@@ -1,17 +1,19 @@
 angular.module("dashboard")
-    .controller("keypairsCtrl", function ($scope, $interval, $rootScope, $state, dashboardHttpRequest) {
+    .controller("volumeCtrl", function ($scope, $interval, $rootScope, $state, dashboardHttpRequest) {
         var initialize = function () {
-            $scope.new_keypair_data = {
-                "name": ''
+            $scope.new_volume_data = {
+                "name": '',
+                "description": "",
+                "size": 0
             };
-            $scope.get_overview();
+            $scope.get_volumes();
         };
-        $scope.get_overview = function () {
-            dashboardHttpRequest.get_key_pairs()
+        $scope.get_volumes = function () {
+            dashboardHttpRequest.get_volumes()
                 .then(function (data) {
                     var response = data['data']['response_code'];
                     if (response === 200) {
-                        $scope.keypairs = data['data']['keypairs'];
+                        $scope.volumes = data['data']['volumes'];
                     }
                     else if (response === 401) {
                         $state.go("login");
@@ -21,13 +23,13 @@ angular.module("dashboard")
                 });
         };
 
-        $scope.show_keypair_detail = function (keypair_name) {
-            dashboardHttpRequest.get_key_pair(keypair_name)
+        $scope.show_volume_detail = function (volume_name) {
+            dashboardHttpRequest.get_volume(volume_name)
                 .then(function (data) {
                     var response = data['data']['response_code'];
                     if (response === 200) {
-                        $scope.keypair = data['data']['keypair'];
-                        $rootScope.open_modal('keypair_detail');
+                        $scope.volume = data['data']['volume'];
+                        $rootScope.open_modal('volume_detail');
                     }
                     else if (response === 401) {
                         $state.go("login");
@@ -37,14 +39,14 @@ angular.module("dashboard")
                 });
         };
 
-        $scope.delete_keypair = function () {
-            dashboardHttpRequest.delete_key_pair($scope.deleteing_item)
+        $scope.delete_volume = function () {
+            dashboardHttpRequest.delete_volume($scope.deleteing_item)
                 .then(function (data) {
                     var response = data['data']['response_code'];
                     if (response === 200) {
-                        $rootScope.close_modal('keypair_delete');
+                        $rootScope.close_modal('volume_delete');
                         $scope.deleteing_item = "";
-                        $scope.get_overview();
+                        $scope.get_volumes();
                     }
                     else if (response === 401) {
                         $state.go("login");
@@ -54,14 +56,14 @@ angular.module("dashboard")
                 });
         };
 
-        $scope.create_keypair = function () {
-            dashboardHttpRequest.create_key_pair($scope.new_keypair_data)
+        $scope.create_volume = function () {
+            dashboardHttpRequest.create_volume($scope.new_volume_data)
                 .then(function (data) {
                     var response = data['data']['response_code'];
                     if (response === 200) {
-                        $rootScope.close_modal('keypair_create');
+                        $rootScope.close_modal('volume_create');
                         $scope.clear_form();
-                        $scope.get_overview();
+                        $scope.get_volumes();
                     }
                     else if (response === 401) {
                         $state.go("login");
@@ -80,8 +82,10 @@ angular.module("dashboard")
         };
 
         $scope.clear_form = function () {
-            $scope.new_keypair_data = {
-                "name": ''
+            $scope.new_volume_data = {
+                "name": '',
+                "description": "",
+                "size": 0
             };
         };
 

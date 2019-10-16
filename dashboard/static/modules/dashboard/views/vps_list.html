@@ -15,8 +15,8 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="vps in vps_list">
-                    <td>{{ $index | persianNumber }}</td>
-                    <td>{{ vps.ip_addr | persianNumber }}</td>
+                    <td>{{ $index + 1 | persianNumber }}</td>
+                    <td>{{ vps.ip_addr }}</td>
                     <td>{{ vps.instance_name }}</td>
                     <td>{{ vps.image_name }}</td>
                     <td>{{ vps.key_name }}</td>

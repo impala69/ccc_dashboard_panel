@@ -45,11 +45,18 @@ myApp.config(function ($stateProvider, $authProvider) {
         templateUrl: 'static/modules/dashboard/views/key_pairs.html'
     };
 
+    var volumes = {
+        name: 'dashboard.volumes',
+        url: '/volumes',
+        templateUrl: 'static/modules/dashboard/views/volumes.html'
+    };
+
     $stateProvider.state(login);
     $stateProvider.state(dashboard);
     $stateProvider.state(vps_list);
     $stateProvider.state(overview);
     $stateProvider.state(key_pairs);
+    $stateProvider.state(volumes);
 });
 
 angular.module("dashboard")

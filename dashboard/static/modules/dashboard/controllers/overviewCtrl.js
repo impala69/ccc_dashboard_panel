@@ -11,7 +11,7 @@ angular.module("dashboard")
                     if (response === 200) {
                         $scope.overview_data = data['data']['overview'];
                     }
-                    else if (response === 403) {
+                    else if (response === 401) {
                         $state.go("login");
                     }
                 }, function (error) {

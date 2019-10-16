@@ -66,16 +66,49 @@ angular.module('dashboard')
                     'data': data
                 });
             },
-            'create_key_pair': function () {
+            'create_key_pair': function (data) {
                 return this.request({
                     'method': "POST",
-                    'url': "/ccc/keypairs/"
+                    'url': "/ccc/keypairs/",
+                    'data': data
                 });
             },
             'get_key_pair': function (keypair_name) {
                 return this.request({
                     'method': "GET",
                     'url': "/ccc/keypairs/" + keypair_name + "/"
+                });
+            },
+            'delete_key_pair': function (keypair_name) {
+                return this.request({
+                    'method': "DELETE",
+                    'url': "/ccc/keypairs/" + keypair_name + "/"
+                });
+            },
+            'get_volumes': function (data) {
+                return this.request({
+                    'method': "GET",
+                    'url': "/ccc/volumes/",
+                    'data': data
+                });
+            },
+            'create_volume': function (data) {
+                return this.request({
+                    'method': "POST",
+                    'url': "/ccc/volumes/",
+                    'data': data
+                });
+            },
+            'get_volume': function (volume_name) {
+                return this.request({
+                    'method': "GET",
+                    'url': "/ccc/volumes/" + volume_name + "/"
+                });
+            },
+            'delete_volume': function (volume_name) {
+                return this.request({
+                    'method': "DELETE",
+                    'url': "/ccc/volumes/" + volume_name + "/"
                 });
             }
 

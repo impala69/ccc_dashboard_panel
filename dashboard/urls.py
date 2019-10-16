@@ -8,6 +8,8 @@ urlpatterns = [
     path('get_overview/', views.Overview.as_view()),
     path('keypairs/', views.KeyPairs.as_view()),
     path('keypairs/<str:name>/', views.KeyPairDetail.as_view()),
+    path('volumes/', views.Volumes.as_view()),
+    path('volumes/<str:name>/', views.VolumeDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

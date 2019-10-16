@@ -205,3 +205,48 @@ body h1, h2, h3, h4, h5, h6, label, button, input, a, th, td {
 .public_key {
     word-break: break-all;
 }
+
+.modal-footer .btn{
+    font-size: 13px;
+}
+
+.modal-title{
+    font-size: 14px;
+}
+
+.modal-body p{
+    font-size: 14px;
+}
+
+.create-btn {
+    font-size: 12px !important;
+}
+
+.submit-btn {
+    font-size: 12px !important;
+}
+
+.table-section {
+    margin-top: 10px;
+}
+
+form {
+    text-align: right;
+}
+
+.form-group input{
+    font-size: 13px;
+}
+
+.form-group label {
+    font-size: 13px;
+}
+
+.modal-body {
+    font-family: IRANSans;
+}
+
+.modal-submit {
+    margin-left: 10px;
+}
+

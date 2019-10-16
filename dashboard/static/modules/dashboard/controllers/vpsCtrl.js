@@ -11,7 +11,7 @@ angular.module("dashboard")
                     if (response === 200) {
                         $scope.vps_list = data['data']['vps_list'];
                     }
-                    else if (response === 403) {
+                    else if (response === 401) {
                         $state.go("login");
                     }
                 }, function (error) {
