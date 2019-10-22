@@ -1,4 +1,54 @@
 <div ng-controller="vpsCtrl" class="ccc_content_holder">
+    <div class="modal" tabindex="-1" role="dialog" id="console_show">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">کنسول</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-right">کنسول شما آماده است. برای نمایش کنسول روی دکمه زیر کلیک کنید.</p>
+
+                </div>
+                <div class="modal-footer">
+                    <a class="escape-left" href="{{ console_url }}" target="_blank">
+                        <button class="btn btn-primary">برو به کنسول</button>
+                    </a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="volume_attachment">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تخصیص حافظه</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>نام حافظه</label>
+                            <select ng-model="attached_volume" class="form-control" id="sel1">
+                                <option value="volume.id"
+                                        ng-repeat="volume in volumes">{{ volume.displayName }}</option>
+                            </select>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="" class="btn btn-primary escape-left">تخصیص</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="card">
             <table class="table table-hover vps_list_table">
@@ -7,10 +57,13 @@
                     <th>#</th>
                     <th>آی پی</th>
                     <th>نام سرور</th>
+                    <th>وضعیت سرور</th>
                     <th>نام تصویر</th>
                     <th>نام کلید</th>
+                    <th>وضعیت</th>
                     <th>زمان ساخت</th>
                     <th>حذف</th>
+                    <th>اقدامات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -18,10 +71,32 @@
                     <td>{{ $index + 1 | persianNumber }}</td>
                     <td>{{ vps.ip_addr }}</td>
                     <td>{{ vps.instance_name }}</td>
+                    <td><span class="badge badge-pill badge-info status-badge">{{ vps.power_state }}</span></td>
                     <td>{{ vps.image_name }}</td>
                     <td>{{ vps.key_name }}</td>
+                    <td><span class="badge badge-pill badge-primary status-badge">{{ vps.status }}</span></td>
                     <td>{{ vps.created }}</td>
-                    <td><button class="btn btn-primary ccc_table_button">حذف سرور</button></td>
+                    <td>
+                        <button class="btn btn-primary ccc_table_button">حذف سرور</button>
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary ccc_action_button dropdown-toggle"
+                                    data-toggle="dropdown">
+                                اقدامات
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="" ng-click="vps_action(vps.id, 'REBOOT')">راه‌اندازی
+                                    مجدد</a>
+                                <a class="dropdown-item" href="" ng-click="vps_action(vps.id, 'SHUTOFF')">خاموش کردن</a>
+                                <a class="dropdown-item" href="" ng-click="vps_action(vps.id, 'START')">روشن کردن</a>
+                                <a class="dropdown-item" href="" ng-click="vps_action(vps.id, 'CONSOLE')">کنسول</a>
+                                <a class="dropdown-item" href="" ng-click="open_modal('volume_attachment')">اختصاص
+                                    حافظه</a>
+                                <a class="dropdown-item" href="">گرفتن حافظه</a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>

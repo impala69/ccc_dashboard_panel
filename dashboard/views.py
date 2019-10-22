@@ -9,6 +9,15 @@ from .horizonService import HorizonServiceAPI
 
 DATA_REQUIRE = "اطلاعات را به شکل کامل وارد کنید."
 
+POWER_STATES = [
+    'NOSTATE',
+    'RUNNING',
+    'PAUSED',
+    'SHUTDOWN',
+    'CRASHED',
+    'SUSPENDED'
+]
+
 
 @permission_classes((permissions.AllowAny,))
 class Login(APIView):
@@ -55,8 +64,15 @@ class Login(APIView):
 
         response_data = HorizonServiceAPI("http://10.254.254.201:5000/v3/auth/tokens",
                                           payload=login_data, headers=headers).post_request_handler()
+        response_data_json = response_data.json()
+        user_obj = response_data_json['token']['user']
+        username = user_obj['name']
+        user_id = user_obj['id']
+
         auth_token = response_data.headers['X-Subject-Token']
         request.session['auth_session'] = auth_token
+        request.session['user_id'] = user_id
+        request.session['username'] = username
         return Response(data={'response_code': 200})
 
 
@@ -83,16 +99,42 @@ class VPS(APIView):
         for item in all_vps:
             print(item)
             ip_address_dict = next(iter(item['addresses'].values()))
-            print(item['id'])
             serialized_vps_data.append({
+                "id": item['id'],
                 "instance_name": item['name'],
                 "ip_addr": ip_address_dict[0]['addr'],
                 "created": item['created'],
                 "image_name": "Undefined",
-                "key_name": item['key_name']
+                "key_name": item['key_name'],
+                "status": item['status'],
+                "power_state": POWER_STATES[int(item['OS-EXT-STS:power_state'])],
             })
 
         return Response(data={'response_code': 200, "vps_list": serialized_vps_data})
+
+
+@permission_classes((permissions.AllowAny,))
+class VPSDetail(APIView):
+    def post(self, request, server_id):
+        rec_data = json.loads(request.read().decode('utf-8'))
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+
+        payload = rec_data['action_data']
+
+        response_data_vps_action = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/servers/" + server_id + "/action",
+                                                     headers=headers, payload=payload).post_request_handler()
+
+        if payload['os-getVNCConsole']:
+            return Response(data={'response_code': 200, 'console_url': response_data_vps_action.json()['console']['url']})
+
+        return Response(data={'response_code': 200})
 
 
 @permission_classes((permissions.AllowAny,))
@@ -229,6 +271,9 @@ class Volumes(APIView):
                                           headers=headers).get_request_handler()
 
         res = response_data.json()
+        for vol in res['volumes']:
+            if not vol['displayName']:
+                vol['displayName'] = vol['id']
         if response_data.status_code == 401:
             return Response(data={"response_code": 401})
 
@@ -309,3 +354,59 @@ class VolumeDetail(APIView):
             return Response(data={"response_code": 401})
 
         return Response(data={'response_code': 200})
+
+
+@permission_classes((permissions.AllowAny,))
+class User(APIView):
+    def get(self, request):
+        if not request.session.get('auth_session', None) or not request.session.get('username',
+                                                                                    None) or not request.session.get(
+            'user_id', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        user_obj = {
+            "user": {
+                "name": request.session.get('username', None),
+                "id": request.session.get('user_id', None)
+            }
+        }
+        return Response(data={'response_code': 200, "user_data": user_obj})
+
+    def post(self, request):
+        if not request.session.get('auth_session', None) or not request.session.get('username',
+                                                                                    None) or not request.session.get(
+            'user_id', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        rec_data = json.loads(request.read().decode('utf-8'))
+        old_password = rec_data['old_password']
+        new_password = rec_data['new_password']
+        re_new_password = rec_data['re_new_password']
+
+        if not old_password or not new_password or not re_new_password:
+            return Response(data={"response_code": 300, "error_msg": DATA_REQUIRE})
+
+        if new_password != re_new_password:
+            return Response(data={"response_code": 300, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+
+        payload = {
+            "user": {
+                "password": new_password,
+                "original_password": old_password
+            }
+        }
+
+        user_id = request.session.get('user_id', None)
+
+        response_data = HorizonServiceAPI("http://controller:5000/v3/users/" + user_id + "/password",
+                                          payload=payload, headers=headers).post_request_handler()
+
+        if response_data.status_code == 200:
+            return Response(data={'response_code': 200})
+        else:
+            return Response(data={'response_code': 401})

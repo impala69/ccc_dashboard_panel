@@ -51,12 +51,19 @@ myApp.config(function ($stateProvider, $authProvider) {
         templateUrl: 'static/modules/dashboard/views/volumes.html'
     };
 
+    var privacy = {
+        name: 'dashboard.privacy',
+        url: '/privacy',
+        templateUrl: 'static/modules/dashboard/views/privacy.html'
+    };
+
     $stateProvider.state(login);
     $stateProvider.state(dashboard);
     $stateProvider.state(vps_list);
     $stateProvider.state(overview);
     $stateProvider.state(key_pairs);
     $stateProvider.state(volumes);
+    $stateProvider.state(privacy);
 });
 
 angular.module("dashboard")

@@ -110,6 +110,26 @@ angular.module('dashboard')
                     'method': "DELETE",
                     'url': "/ccc/volumes/" + volume_name + "/"
                 });
+            },
+            'get_user': function () {
+                return this.request({
+                    'method': "GET",
+                    'url': "/ccc/users/"
+                });
+            },
+            'change_user_password': function (data) {
+                return this.request({
+                    'method': "POST",
+                    'url': "/ccc/users/",
+                    'data': data
+                });
+            },
+            'vps_detail': function (server_id, data) {
+                return this.request({
+                    'method': "POST",
+                    'url': "/ccc/vps-detail/" + server_id + "/action/",
+                    'data': data
+                });
             }
 
 

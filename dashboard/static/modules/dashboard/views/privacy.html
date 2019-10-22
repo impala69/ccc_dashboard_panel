@@ -1,0 +1,31 @@
+<div ng-controller="privacyCtrl" class="ccc_content_holder">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <form>
+                    <div class="form-group">
+                        <label>نام کاربری</label>
+                        <input disabled ng-model="user_data.name" type="text" class="form-control" placeholder="نام حافظه">
+                    </div>
+                    <div class="form-group">
+                        <label>رمز عبور قدیمی</label>
+                        <input ng-model="user_data.old_password" type="password" class="form-control"
+                               placeholder="رمز عبور قدیمی">
+                    </div>
+                    <div class="form-group">
+                        <label>رمز عبور</label>
+                        <input ng-model="user_data.new_password" type="password" class="form-control"
+                               placeholder="رمز عبور">
+                    </div>
+                    <div class="form-group">
+                        <label>تکرار رمز عبور</label>
+                        <input ng-model="user_data.re_new_password" type="password" class="form-control"
+                               placeholder="تکرار رمز عبور">
+                    </div>
+                    <button ng-click="change_password()" type="submit" class="btn btn-primary submit-btn change-pass-btn">تغییر رمز عبور!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
