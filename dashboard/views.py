@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
-import requests, json
+import json
 from bs4 import BeautifulSoup
 from .horizonService import HorizonServiceAPI
 
@@ -410,3 +410,69 @@ class User(APIView):
             return Response(data={'response_code': 200})
         else:
             return Response(data={'response_code': 401})
+
+
+@permission_classes((permissions.AllowAny,))
+class Networks(APIView):
+    def get(self, request):
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+
+        response_data = HorizonServiceAPI("http://10.254.254.201:9696/v2.0/networks",
+                                          headers=headers).get_request_handler()
+
+        res = response_data.json()
+        if response_data.status_code == 401:
+            return Response(data={"response_code": 401})
+
+        return Response(data={'response_code': 200, "networks": res['networks']})
+
+
+@permission_classes((permissions.AllowAny,))
+class Images(APIView):
+    def get(self, request):
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+
+        response_data = HorizonServiceAPI("http://10.254.254.201:9292//v2/images",
+                                          headers=headers).get_request_handler()
+
+        res = response_data.json()
+        if response_data.status_code == 401:
+            return Response(data={"response_code": 401})
+
+        return Response(data={'response_code': 200, "images": res['images']})
+
+
+@permission_classes((permissions.AllowAny,))
+class Flavors(APIView):
+    def get(self, request):
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+
+        response_data = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/flavors",
+                                          headers=headers).get_request_handler()
+
+        res = response_data.json()
+        if response_data.status_code == 401:
+            return Response(data={"response_code": 401})
+
+        return Response(data={'response_code': 200, "flavors": res['flavors']})

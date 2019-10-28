@@ -5,6 +5,9 @@ angular.module("dashboard")
             $scope.attached_volume = "";
             $scope.get_vps_list();
             $scope.get_volumes();
+            $scope.get_images();
+            $scope.get_flavors();
+            $scope.get_networks();
         };
         $scope.get_vps_list = function () {
             dashboardHttpRequest.get_all_vps()
@@ -27,6 +30,49 @@ angular.module("dashboard")
                     var response = data['data']['response_code'];
                     if (response === 200) {
                         $scope.volumes = data['data']['volumes'];
+                    }
+                    else if (response === 401) {
+                        $state.go("login");
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+        };
+        $scope.get_flavors = function () {
+            dashboardHttpRequest.get_flavors()
+                .then(function (data) {
+                    var response = data['data']['response_code'];
+                    if (response === 200) {
+                        $scope.flavors = data['data']['flavors'];
+                    }
+                    else if (response === 401) {
+                        $state.go("login");
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+        };
+        $scope.get_networks = function () {
+            dashboardHttpRequest.get_networks()
+                .then(function (data) {
+                    var response = data['data']['response_code'];
+                    if (response === 200) {
+                        $scope.networks = data['data']['networks'];
+                    }
+                    else if (response === 401) {
+                        $state.go("login");
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+        };
+
+        $scope.get_images = function () {
+            dashboardHttpRequest.get_images()
+                .then(function (data) {
+                    var response = data['data']['response_code'];
+                    if (response === 200) {
+                        $scope.images = data['data']['images'];
                     }
                     else if (response === 401) {
                         $state.go("login");

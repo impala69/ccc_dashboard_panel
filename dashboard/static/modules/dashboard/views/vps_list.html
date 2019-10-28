@@ -1,4 +1,76 @@
 <div ng-controller="vpsCtrl" class="ccc_content_holder">
+    <div class="modal" tabindex="-1" role="dialog" id="instance_delete">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">حذف سرور</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-right">آیا اطمینان به حذف دارید؟</p>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="delete_volume()" type="button" class="btn btn-success modal-submit" data-dismiss="modal">بله</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="instance_create">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ساخت سرور</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>نام سرور</label>
+                            <input ng-model="new_instance_data.name" type="text" class="form-control" placeholder="نام سرور">
+                        </div>
+                        <div class="form-group">
+                            <label>نوضیحات سرور</label>
+                            <input ng-model="new_instance_data.description" type="text" class="form-control" placeholder="نوضیحات سرور">
+                        </div>
+                        <div class="form-group">
+                            <label>Image</label>
+                            <select ng-model="attached_volume" class="form-control" id="sel1">
+                                <option value="image.id"
+                                        ng-repeat="image in images">{{ image.name }}({{ image.size / 1024 / 1024 / 1024 }} GB)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Flavor ( VCPUS, RAM, DISK )</label>
+                            <select ng-model="attached_volume" class="form-control" id="sel1">
+                                <option value="flavor.id"
+                                        ng-repeat="flavor in flavors">{{ flavor.name }} (</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Network</label>
+                            <select ng-model="attached_volume" class="form-control" id="sel1">
+                                <option value="volume.id"
+                                        ng-repeat="volume in volumes">{{ volume.displayName }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد</label>
+                            <input ng-model="new_instance_data.count" type="number" min="1" class="form-control" placeholder="تعداد سرور">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="create_volume()" type="submit" class="btn btn-primary submit-btn escape-left">بساز!</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal" tabindex="-1" role="dialog" id="console_show">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -25,7 +97,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">تخصیص حافظه</h5>
+                    <h5 class="modal-title">تخصیص سرور</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -50,7 +122,14 @@
         </div>
     </div>
     <div class="container">
-        <div class="card">
+        <div class="row">
+            <div class="col">
+                <button ng-click="open_modal('instance_create')" class="btn btn-success create-btn">ساختن سرور جدید</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card table-section">
             <table class="table table-hover vps_list_table">
                 <thead>
                 <tr>
@@ -100,6 +179,8 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+            </div>
         </div>
     </div>
 </div>

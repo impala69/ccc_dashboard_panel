@@ -130,6 +130,24 @@ angular.module('dashboard')
                     'url': "/ccc/vps-detail/" + server_id + "/action/",
                     'data': data
                 });
+            },
+            'get_images': function () {
+                return this.request({
+                    'method': "GET",
+                    'url': "/ccc/images/"
+                });
+            },
+            'get_networks': function () {
+                return this.request({
+                    'method': "GET",
+                    'url': "/ccc/networks/"
+                });
+            },
+            'get_flavors': function () {
+                return this.request({
+                    'method': "GET",
+                    'url': "/ccc/flavors/"
+                });
             }
 
 

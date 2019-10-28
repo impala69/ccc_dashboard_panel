@@ -12,6 +12,9 @@ urlpatterns = [
     path('volumes/', views.Volumes.as_view()),
     path('volumes/<str:name>/', views.VolumeDetail.as_view()),
     path('users/', views.User.as_view()),
+    path('images/', views.Images.as_view()),
+    path('flavors/', views.Flavors.as_view()),
+    path('networks/', views.Networks.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
