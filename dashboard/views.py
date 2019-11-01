@@ -98,11 +98,15 @@ class VPS(APIView):
         all_vps = response_data['servers']
         for item in all_vps:
             print(item)
-            ip_address_dict = next(iter(item['addresses'].values()))
+            if item['addresses']:
+                ip_address_dict = next(iter(item['addresses'].values()))
+                ip_address_dict = ip_address_dict[0]['addr']
+            else:
+                ip_address_dict = []
             serialized_vps_data.append({
                 "id": item['id'],
                 "instance_name": item['name'],
-                "ip_addr": ip_address_dict[0]['addr'],
+                "ip_addr": ip_address_dict,
                 "created": item['created'],
                 "image_name": "Undefined",
                 "key_name": item['key_name'],
@@ -111,6 +115,62 @@ class VPS(APIView):
             })
 
         return Response(data={'response_code': 200, "vps_list": serialized_vps_data})
+
+    def post(self, request):
+        rec_data = json.loads(request.read().decode('utf-8'))
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+
+        print(request.session.get('auth_session', None))
+
+        vps_name = rec_data['name']
+        vps_description = rec_data['description']
+        vps_image = rec_data['image_id']
+        vps_flavor = rec_data['flavor_id']
+        vps_network = rec_data['network_id']
+        vps_count = rec_data['count']
+
+        payload = {
+            "server": {
+                "name": vps_name,
+                "imageRef": vps_image,
+                "flavorRef": vps_flavor,
+                "networks": [{
+                    "uuid": vps_network
+                }],
+            }
+        }
+
+        response_data_vps_action = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/servers",
+                                                     headers=headers, payload=payload).post_request_handler()
+
+        print(response_data_vps_action.text)
+
+        return Response(data={'response_code': 200})
+
+    def delete(self, request, server_id, format=None):
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+
+        response_data = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/servers/" + server_id,
+                                          headers=headers).delete_request_handler()
+
+        if response_data.status_code == 401:
+            return Response(data={"response_code": 401})
+
+        return Response(data={'response_code': 200})
 
 
 @permission_classes((permissions.AllowAny,))
@@ -468,7 +528,7 @@ class Flavors(APIView):
             "X-Auth-Token": request.session.get('auth_session', None)
         }
 
-        response_data = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/flavors",
+        response_data = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/flavors/detail",
                                           headers=headers).get_request_handler()
 
         res = response_data.json()

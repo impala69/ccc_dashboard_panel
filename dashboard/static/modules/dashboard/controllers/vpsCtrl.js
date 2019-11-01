@@ -3,6 +3,14 @@ angular.module("dashboard")
         var initialize = function () {
             $scope.vps_list = [];
             $scope.attached_volume = "";
+            $scope.new_instance_data = {
+                "name": "",
+                "description": "",
+                "image_id": "",
+                "flavor_id": "",
+                "network_id": "",
+                "count": 0
+            };
             $scope.get_vps_list();
             $scope.get_volumes();
             $scope.get_images();
@@ -112,6 +120,33 @@ angular.module("dashboard")
                     }
                     else if (response === 401) {
                         $state.go("login");
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+        };
+
+        $scope.create_volume = function () {
+            dashboardHttpRequest.create_vps($scope.new_instance_data)
+                .then(function (data) {
+                    var response = data['data']['response_code'];
+                    if (response === 200) {
+                        $scope.close_modal("instance_create");
+                        $scope.get_vps_list();
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+        };
+
+        $scope.delete_vps = function (server_id) {
+            dashboardHttpRequest.delete_vps(server_id)
+                .then(function (data) {
+                    var response = data['data']['response_code'];
+                    if (response === 200) {
+                        $timeout(function () {
+                            $scope.get_vps_list();
+                        }, 4000);
                     }
                 }, function (error) {
                     console.log(error);

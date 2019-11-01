@@ -39,23 +39,23 @@
                         </div>
                         <div class="form-group">
                             <label>Image</label>
-                            <select ng-model="attached_volume" class="form-control" id="sel1">
-                                <option value="image.id"
+                            <select ng-model="new_instance_data.image_id" class="form-control" id="sel1">
+                                <option value="{{ image.id }}"
                                         ng-repeat="image in images">{{ image.name }}({{ image.size / 1024 / 1024 / 1024 }} GB)</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Flavor ( VCPUS, RAM, DISK )</label>
-                            <select ng-model="attached_volume" class="form-control" id="sel1">
-                                <option value="flavor.id"
-                                        ng-repeat="flavor in flavors">{{ flavor.name }} (</option>
+                            <select ng-model="new_instance_data.flavor_id" class="form-control" id="sel1">
+                                <option value="{{ flavor.id }}"
+                                        ng-repeat="flavor in flavors">{{ flavor.name }} ( {{ flavor.vcpus }} , {{ flavor.ram / 1024 }} GB, {{ flavor.disk }} GB )</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Network</label>
-                            <select ng-model="attached_volume" class="form-control" id="sel1">
-                                <option value="volume.id"
-                                        ng-repeat="volume in volumes">{{ volume.displayName }}</option>
+                            <select ng-model="new_instance_data.network_id" class="form-control" id="sel1">
+                                <option value="{{ network.id }}"
+                                        ng-repeat="network in networks">{{ network.name }}</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -156,7 +156,7 @@
                     <td><span class="badge badge-pill badge-primary status-badge">{{ vps.status }}</span></td>
                     <td>{{ vps.created }}</td>
                     <td>
-                        <button class="btn btn-primary ccc_table_button">حذف سرور</button>
+                        <button ng-click="delete_vps(vps.id)" class="btn btn-primary ccc_table_button">حذف سرور</button>
                     </td>
                     <td>
                         <div class="dropdown">

@@ -52,6 +52,19 @@ angular.module('dashboard')
                     'data': data
                 });
             },
+            'create_vps': function (data) {
+                return this.request({
+                    'method': "POST",
+                    'url': "/ccc/vps/",
+                    'data': data
+                });
+            },
+            'delete_vps': function (server_id) {
+                return this.request({
+                    'method': "DELETE",
+                    'url': "/ccc/vps/" + server_id + "/"
+                });
+            },
             'get_overview': function (data) {
                 return this.request({
                     'method': "GET",
