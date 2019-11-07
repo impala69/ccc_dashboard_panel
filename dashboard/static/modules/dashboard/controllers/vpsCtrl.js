@@ -3,6 +3,7 @@ angular.module("dashboard")
         var initialize = function () {
             $scope.vps_list = [];
             $scope.attached_volume = "";
+            $scope.detached_volume = "";
             $scope.new_instance_data = {
                 "name": "",
                 "description": "",
@@ -151,6 +152,55 @@ angular.module("dashboard")
                 }, function (error) {
                     console.log(error);
                 });
+        };
+
+        $scope.get_attachments = function (server_id) {
+            dashboardHttpRequest.get_attachments(server_id)
+                .then(function (data) {
+                    var response = data['data']['response_code'];
+                    if (response === 200) {
+                        $scope.server_for_attach_or_detach = server_id;
+                        $scope.attachment_volumes = data['data']['volumes_attachments'];
+                        $scope.open_modal('volume_detachment');
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+        };
+
+        $scope.create_attachment = function (server_id) {
+            var sending_data = {
+                'volume_id': $scope.attached_volume
+            };
+            dashboardHttpRequest.create_attachment(sending_data, server_id)
+                .then(function (data) {
+                    var response = data['data']['response_code'];
+                    if (response === 200) {
+                        $scope.close("volume_attachment");
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+        };
+
+        $scope.delete_attachment = function (server_id) {
+            var sending_data = {
+                'volume_id': $scope.detached_volume
+            };
+            dashboardHttpRequest.delete_attachment(sending_data, server_id)
+                .then(function (data) {
+                    var response = data['data']['response_code'];
+                    if (response === 200) {
+                        $scope.close_modal('volume_detachment');
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+        };
+
+        $scope.open_delete_attachment = function (server_id) {
+            $scope.server_for_attach_or_detach = server_id;
+            $scope.open_modal('volume_attachment');
         };
 
         initialize();

@@ -161,6 +161,26 @@ angular.module('dashboard')
                     'method': "GET",
                     'url': "/ccc/flavors/"
                 });
+            },
+            'get_attachments': function (server_id) {
+                return this.request({
+                    'method': "GET",
+                    'url': "/ccc/servers/" + server_id + "/os-volume_attachments"
+                });
+            },
+            'create_attachment': function (data, server_id) {
+                return this.request({
+                    'method': "POST",
+                    'url': "/ccc/servers/" + server_id + "/os-volume_attachments",
+                    'data': data
+                });
+            },
+            'delete_attachment': function (data, server_id) {
+                return this.request({
+                    'method': "DELETE",
+                    'url': "/ccc/servers/" + server_id + "/os-volume_attachments",
+                    'data': data
+                });
             }
 
 

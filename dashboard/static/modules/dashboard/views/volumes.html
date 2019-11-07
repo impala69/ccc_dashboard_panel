@@ -91,6 +91,7 @@
                     <th>اندازه ( گیگابایت )</th>
                     <th>وضعیت</th>
                     <th>در دسترس بودن</th>
+                    <th>تخصیص به سرور</th>
                     <th>حذف</th>
                 </tr>
                 </thead>
@@ -104,6 +105,7 @@
                     <td>{{ vol.size | persianNumber}}</td>
                     <td>{{ vol.status }}</td>
                     <td>{{ vol.availabilityZone }}</td>
+                    <td>{{ vol.attached_volume_server_name }}</td>
                     <td>
                         <button ng-click="open_permission_modal('volume_delete', vol.id)" class="btn btn-primary ccc_table_button">حذف</button>
                     </td>

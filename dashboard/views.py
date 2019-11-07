@@ -65,6 +65,7 @@ class Login(APIView):
         response_data = HorizonServiceAPI("http://10.254.254.201:5000/v3/auth/tokens",
                                           payload=login_data, headers=headers).post_request_handler()
         response_data_json = response_data.json()
+        project_id = response_data_json['token']['project']['id']
         user_obj = response_data_json['token']['user']
         username = user_obj['name']
         user_id = user_obj['id']
@@ -73,6 +74,7 @@ class Login(APIView):
         request.session['auth_session'] = auth_token
         request.session['user_id'] = user_id
         request.session['username'] = username
+        request.session['project_id'] = project_id
         return Response(data={'response_code': 200})
 
 
@@ -192,7 +194,8 @@ class VPSDetail(APIView):
                                                      headers=headers, payload=payload).post_request_handler()
 
         if payload['os-getVNCConsole']:
-            return Response(data={'response_code': 200, 'console_url': response_data_vps_action.json()['console']['url']})
+            return Response(
+                data={'response_code': 200, 'console_url': response_data_vps_action.json()['console']['url']})
 
         return Response(data={'response_code': 200})
 
@@ -245,11 +248,10 @@ class KeyPairs(APIView):
                                           payload=new_key_pair_data).post_request_handler()
 
         res = response_data.json()
-        print(res)
         if response_data.status_code == 401:
             return Response(data={"response_code": 401})
 
-        return Response(data={'response_code': 200})
+        return Response(data={'response_code': 200, "keypair_detail": res})
 
 
 @permission_classes((permissions.AllowAny,))
@@ -295,9 +297,10 @@ class KeyPairDetail(APIView):
 @permission_classes((permissions.AllowAny,))
 class Overview(APIView):
     def get(self, request):
-        if not request.session.get('auth_session', None):
+        if not request.session.get('auth_session', None) or not request.session.get('project_id', None):
             return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
 
+        p_id = request.session.get('project_id', None)
         headers = {
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest",
@@ -307,12 +310,14 @@ class Overview(APIView):
         response_data = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/limits",
                                           headers=headers).get_request_handler()
 
+        response_data_volume_overview = HorizonServiceAPI("http://controller:8776/v3/" + p_id + "/limits",
+                                                          headers=headers).get_request_handler()
         res = response_data.json()
-        print(res)
         if response_data.status_code == 401:
             return Response(data={"response_code": 401})
 
-        return Response(data={'response_code': 200, "overview": res['limits']['absolute']})
+        return Response(data={'response_code': 200, "overview": res['limits']['absolute'],
+                              "overview_volumes": response_data_volume_overview.json()['limits']['absolute']})
 
 
 @permission_classes((permissions.AllowAny,))
@@ -330,8 +335,20 @@ class Volumes(APIView):
         response_data = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/os-volumes/detail",
                                           headers=headers).get_request_handler()
 
+        if response_data.status_code == 401:
+            return Response(data={"response_code": 401})
         res = response_data.json()
         for vol in res['volumes']:
+            server_name = ""
+            if vol['attachments'][0]:
+                attachment_server_id = vol['attachments'][0]['serverId']
+                response_data_server_detail = HorizonServiceAPI(
+                    "http://10.254.254.201:8774/v2.1/servers/" + attachment_server_id,
+                    headers=headers).get_request_handler()
+                response_data_server_detail = response_data_server_detail.json()
+                server_name = response_data_server_detail['server']['name']
+
+            vol['attached_volume_server_name'] = server_name
             if not vol['displayName']:
                 vol['displayName'] = vol['id']
         if response_data.status_code == 401:
@@ -536,3 +553,97 @@ class Flavors(APIView):
             return Response(data={"response_code": 401})
 
         return Response(data={'response_code': 200, "flavors": res['flavors']})
+
+
+@permission_classes((permissions.AllowAny,))
+class Attachment(APIView):
+    def get(self, request, server_id):
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+
+        response_data = HorizonServiceAPI(
+            "http://10.254.254.201:8774/v2.1/servers/" + server_id + "/os-volume_attachments",
+            headers=headers).get_request_handler()
+
+        res = response_data.json()
+        list_attachments = []
+        attachments = res['volumeAttachments']
+        for attachment in attachments:
+            volume_request = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/os-volumes/" + attachment['volumeId'],
+                                               headers=headers).get_request_handler()
+            list_attachments.append({
+                'id': attachment['volumeId'],
+                'name': volume_request.json()['volume']['displayName']
+            })
+        if response_data.status_code == 401:
+            return Response(data={"response_code": 401})
+
+        return Response(data={'response_code': 200, "volumes_attachments": list_attachments})
+
+    def post(self, request, server_id):
+        rec_data = json.loads(request.read().decode('utf-8'))
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        volume_id = rec_data['volume_id']
+
+        if not volume_id:
+            return Response(data={"response_code": 300, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+
+        new_attachment = {
+            "volumeAttachment": {
+                "volumeId": volume_id
+            }
+        }
+
+        response_data = HorizonServiceAPI(
+            "http://10.254.254.201:8774/v2.1/servers/" + server_id + "/os-volume_attachments",
+            headers=headers,
+            payload=new_attachment).post_request_handler()
+
+        res = response_data.json()
+        print(res)
+        if response_data.status_code == 401:
+            return Response(data={"response_code": 401})
+
+        return Response(data={'response_code': 200})
+
+    def delete(self, request, server_id):
+        rec_data = json.loads(request.read().decode('utf-8'))
+        if not request.session.get('auth_session', None):
+            return Response(data={"response_code": 401, "error_msg": DATA_REQUIRE})
+
+        volume_id = rec_data['volume_id']
+
+        if not volume_id:
+            return Response(data={"response_code": 300, "error_msg": DATA_REQUIRE})
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-Auth-Token": request.session.get('auth_session', None)
+        }
+        print(111)
+        print(volume_id)
+
+        response_data = HorizonServiceAPI(
+            "http://10.254.254.201:8774/v2.1/servers/" + server_id + "/os-volume_attachments/" + volume_id,
+            headers=headers).delete_request_handler()
+
+        if response_data.status_code == 401:
+            return Response(data={"response_code": 401})
+
+
+        return Response(data={'response_code': 200})

@@ -6,6 +6,10 @@ angular.module("dashboard")
             };
             $scope.get_overview();
         };
+        $scope.new_created_keypair = {
+            'public_key': "",
+            'private_key': ""
+        };
         $scope.get_overview = function () {
             dashboardHttpRequest.get_key_pairs()
                 .then(function (data) {
@@ -62,6 +66,9 @@ angular.module("dashboard")
                         $rootScope.close_modal('keypair_create');
                         $scope.clear_form();
                         $scope.get_overview();
+                        $scope.new_created_keypair.public_key = data['data']['keypair_detail']['keypair']['public_key'];
+                        $scope.new_created_keypair.private_key = data['data']['keypair_detail']['keypair']['private_key'];
+                        $scope.open_modal("keypair_detail_after_create");
                     }
                     else if (response === 401) {
                         $state.go("login");

@@ -4,6 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('auth/login/', views.Login.as_view()),
+    path('servers/<str:server_id>/os-volume_attachments', views.Attachment.as_view()),
     path('vps/', views.VPS.as_view()),
     path('vps/<str:server_id>/', views.VPS.as_view()),
     path('vps-detail/<str:server_id>/action/', views.VPSDetail.as_view()),
