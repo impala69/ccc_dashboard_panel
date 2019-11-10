@@ -279,3 +279,16 @@ form {
 .escape-left {
     margin-left: 10px;
 }
+
+.preloader:before {
+    position: absolute;
+    content: '';
+    display: block;
+    top: 40%;
+    width: 10%;
+    height: 35%;
+    background: url(/static/src/img/cloud.gif);
+    background-size: 3.5em 3.5em;
+    background-repeat: no-repeat;
+    left: 48%;
+}

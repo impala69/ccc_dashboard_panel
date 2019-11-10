@@ -7,6 +7,7 @@ angular.module("dashboard")
         $scope.get_overview = function () {
             dashboardHttpRequest.get_overview()
                 .then(function (data) {
+                    $rootScope.is_page_loading = false;
                     var response = data['data']['response_code'];
                     if (response === 200) {
                         $scope.overview_data = data['data']['overview'];
@@ -16,6 +17,7 @@ angular.module("dashboard")
                         $state.go("login");
                     }
                 }, function (error) {
+                    $rootScope.is_page_loading = false;
                     console.log(error);
                 });
         };

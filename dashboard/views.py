@@ -310,7 +310,7 @@ class Overview(APIView):
         response_data = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/limits",
                                           headers=headers).get_request_handler()
 
-        response_data_volume_overview = HorizonServiceAPI("http://controller:8776/v3/" + p_id + "/limits",
+        response_data_volume_overview = HorizonServiceAPI("http://10.254.254.201:8776/v3/" + p_id + "/limits",
                                                           headers=headers).get_request_handler()
         res = response_data.json()
         if response_data.status_code == 401:

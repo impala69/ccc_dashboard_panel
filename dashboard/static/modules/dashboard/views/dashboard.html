@@ -3,7 +3,8 @@
         <a class="navbar-brand" href=""><img class="img-fluid" src="static/src/img/cloud.png"></a>
         <a class="navbar-text">پنل مدیریتی مرکز پردازش ابری</a>
         <a class="nav-link ccc_text_holder" ui-sref="dashboard.privacy">تنظیمات کاربری</a>
-        <a class="nav-link ccc_text_holder" href="" data-toggle="tooltip" title="خروج"><i class="fa fa-power-off"></i></a>
+        <a class="nav-link ccc_text_holder" href="" data-toggle="tooltip" title="خروج"><i
+                class="fa fa-power-off"></i></a>
         <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
                 data-target="#navb" aria-expanded="false">
             <span class="navbar-toggler-icon"></span>
@@ -57,5 +58,8 @@
             </div>
         </div>
     </div>
+    <div class="preloader" ng-show="is_page_loading"></div>
+    <div ng-hide="is_page_loading">
+        <ui-view></ui-view>
+    </div>
 </div>
-<ui-view></ui-view>

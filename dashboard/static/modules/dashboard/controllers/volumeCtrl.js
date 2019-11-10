@@ -11,6 +11,7 @@ angular.module("dashboard")
         $scope.get_volumes = function () {
             dashboardHttpRequest.get_volumes()
                 .then(function (data) {
+                    $rootScope.is_page_loading = false;
                     var response = data['data']['response_code'];
                     if (response === 200) {
                         $scope.volumes = data['data']['volumes'];
@@ -19,6 +20,7 @@ angular.module("dashboard")
                         $state.go("login");
                     }
                 }, function (error) {
+                    $rootScope.is_page_loading = false;
                     console.log(error);
                 });
         };

@@ -1,6 +1,7 @@
 angular.module("dashboard")
     .controller("mainCtrl", function ($scope, $interval, $rootScope, $state) {
         var initialize = function () {
+            $rootScope.is_page_loading = true;
             $scope.user_login_data = {
                 "username": '',
                 "password": ''
@@ -10,6 +11,13 @@ angular.module("dashboard")
         $scope.send_login_data = function () {
 
         };
+
+        $rootScope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams, options) {
+                console.log(1);
+                $rootScope.is_page_loading = true;
+            });
+
 
         $scope.get_today = function () {
             week = new Array("يكشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنج شنبه", "جمعه", "شنبه")
@@ -156,7 +164,6 @@ angular.module("dashboard")
         var tick = function () {
             $rootScope.clock = Date.now();
         };
-
 
         initialize();
 

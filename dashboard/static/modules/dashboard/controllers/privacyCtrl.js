@@ -14,6 +14,7 @@ angular.module("dashboard")
         $scope.get_user_data = function () {
             dashboardHttpRequest.get_user()
                 .then(function (data) {
+                    $rootScope.is_page_loading = false;
                     var response = data['data']['response_code'];
                     if (response === 200) {
                         var user_data = data['data']['user_data']['user'];
@@ -24,6 +25,7 @@ angular.module("dashboard")
                         $state.go("login");
                     }
                 }, function (error) {
+                    $rootScope.is_page_loading = false;
                     console.log(error);
                 });
         };

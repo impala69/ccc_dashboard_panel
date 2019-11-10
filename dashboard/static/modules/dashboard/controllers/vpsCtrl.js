@@ -10,17 +10,51 @@ angular.module("dashboard")
                 "image_id": "",
                 "flavor_id": "",
                 "network_id": "",
-                "count": 0
+                "count": 1
             };
             $scope.get_vps_list();
             $scope.get_volumes();
             $scope.get_images();
             $scope.get_flavors();
             $scope.get_networks();
+            $scope.refresh_servers_button = {
+                text: "به روزرسانی وضعیت سرورها",
+                cssClass: 'btn btn-primary create-btn',
+                hideLoading: true,
+                textLoading: '',
+                cssClassLoading: 'btn btn-primary create-btn'
+            };
+
+            $scope.attach_volume_button = {
+                text: "اختصاص",
+                cssClass: 'btn btn-primary escape-left',
+                hideLoading: true,
+                textLoading: '',
+                cssClassLoading: 'btn btn-primary escape-left'
+            };
+
+            $scope.delete_server_button = {
+                text: "حذف سرور",
+                cssClass: 'btn btn-danger submit-btn escape-left',
+                hideLoading: true,
+                textLoading: '',
+                cssClassLoading: 'btn btn-danger submit-btn escape-left'
+            };
+
+            $scope.create_server_button = {
+                text: "ایجاد سرور",
+                cssClass: 'btn btn-primary submit-btn escape-left',
+                hideLoading: true,
+                textLoading: '',
+                cssClassLoading: 'btn btn-primary submit-btn escape-left'
+            };
         };
         $scope.get_vps_list = function () {
             dashboardHttpRequest.get_all_vps()
                 .then(function (data) {
+                    $scope.refresh_servers_button.hideLoading = true;
+                    $scope.refresh_servers_button.text = "به روزرسانی وضعیت سرورها";
+                    $rootScope.is_page_loading = false;
                     var response = data['data']['response_code'];
                     if (response === 200) {
                         $scope.vps_list = data['data']['vps_list'];
@@ -127,9 +161,11 @@ angular.module("dashboard")
                 });
         };
 
-        $scope.create_volume = function () {
+        $scope.create_vps = function () {
             dashboardHttpRequest.create_vps($scope.new_instance_data)
                 .then(function (data) {
+                    $scope.create_server_button.hideLoading = true;
+                    $scope.create_server_button.text = "ایجاد سرور";
                     var response = data['data']['response_code'];
                     if (response === 200) {
                         $scope.close_modal("instance_create");
@@ -143,15 +179,24 @@ angular.module("dashboard")
         $scope.delete_vps = function (server_id) {
             dashboardHttpRequest.delete_vps(server_id)
                 .then(function (data) {
+                    $scope.deleteing_vps_id = server_id;
                     var response = data['data']['response_code'];
                     if (response === 200) {
                         $timeout(function () {
                             $scope.get_vps_list();
+                            $scope.delete_server_button.hideLoading = true;
+                    $scope.delete_server_button.text = "حذف سرور";
+                            $scope.close_modal("instance_delete");
                         }, 4000);
                     }
                 }, function (error) {
                     console.log(error);
                 });
+        };
+
+        $scope.delete_vps_permission_modal = function (server_id) {
+            $scope.deleteing_vps_id = server_id;
+            $scope.open_modal('instance_delete');
         };
 
         $scope.get_attachments = function (server_id) {
@@ -174,9 +219,11 @@ angular.module("dashboard")
             };
             dashboardHttpRequest.create_attachment(sending_data, server_id)
                 .then(function (data) {
+                    $scope.attach_volume_button.hideLoading = true;
+                    $scope.attach_volume_button.text = "اختصاص";
                     var response = data['data']['response_code'];
                     if (response === 200) {
-                        $scope.close("volume_attachment");
+                        $scope.close_modal("volume_attachment");
                     }
                 }, function (error) {
                     console.log(error);

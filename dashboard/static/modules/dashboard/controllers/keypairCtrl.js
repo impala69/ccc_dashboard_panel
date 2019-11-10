@@ -13,6 +13,7 @@ angular.module("dashboard")
         $scope.get_overview = function () {
             dashboardHttpRequest.get_key_pairs()
                 .then(function (data) {
+                    $rootScope.is_page_loading = false;
                     var response = data['data']['response_code'];
                     if (response === 200) {
                         $scope.keypairs = data['data']['keypairs'];
@@ -21,6 +22,7 @@ angular.module("dashboard")
                         $state.go("login");
                     }
                 }, function (error) {
+                    $rootScope.is_page_loading = false;
                     console.log(error);
                 });
         };

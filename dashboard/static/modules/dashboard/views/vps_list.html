@@ -12,8 +12,8 @@
                     <p class="text-right">آیا اطمینان به حذف دارید؟</p>
                 </div>
                 <div class="modal-footer">
-                    <button ng-click="delete_volume()" type="button" class="btn btn-success modal-submit" data-dismiss="modal">بله</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
+                    <active-button ng-click="delete_vps(deleteing_vps_id)"  button="delete_server_button" spinner-icon="fa-spinner"></active-button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">بستن</button>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button ng-click="create_volume()" type="submit" class="btn btn-primary submit-btn escape-left">بساز!</button>
+                    <active-button ng-click="create_vps()"  button="create_server_button" spinner-icon="fa-spinner"></active-button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
                 </div>
             </div>
@@ -115,7 +115,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button ng-click="create_attachment(server_for_attach_or_detach)" class="btn btn-primary escape-left">تخصیص</button>
+                    <active-button ng-click="create_attachment(server_for_attach_or_detach)"  button="attach_volume_button" spinner-icon="fa-spinner"></active-button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>
                 </div>
             </div>
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col">
                 <button ng-click="open_modal('instance_create')" class="btn btn-success create-btn">ساختن سرور جدید</button>
-                <button ng-click="get_vps_list()" class="btn btn-primary create-btn">به روزرسانی وضعیت سرورها</button>
+                <active-button ng-click="get_vps_list()"  button="refresh_servers_button" spinner-icon="fa-spinner"></active-button>
             </div>
         </div>
         <div class="row">
@@ -185,7 +185,7 @@
                     <td><span class="badge badge-pill badge-primary status-badge">{{ vps.status }}</span></td>
                     <td>{{ vps.created }}</td>
                     <td>
-                        <button ng-click="delete_vps(vps.id)" class="btn btn-primary ccc_table_button">حذف سرور</button>
+                        <button ng-click="delete_vps_permission_modal(vps.id)" class="btn btn-primary ccc_table_button">حذف سرور</button>
                     </td>
                     <td>
                         <div class="dropdown">

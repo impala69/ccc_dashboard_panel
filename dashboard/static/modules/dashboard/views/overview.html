@@ -41,18 +41,18 @@
                     <tbody>
                     <tr>
                         <td>Volumes</td>
-                        <td>{{ overview_volume_data.totalVolumesUsed }}</td>
-                        <td>{{ overview_volume_data.maxTotalVolumes }}</td>
+                        <td>{{ overview_volume_data.totalVolumesUsed | persianNumber }}</td>
+                        <td>{{ overview_volume_data.maxTotalVolumes | persianNumber }}</td>
                     </tr>
                     <tr>
                         <td>Volume Snapshots</td>
-                        <td>{{ overview_volume_data.totalSnapshotsUsed }}</td>
-                        <td>{{ overview_volume_data.maxTotalSnapshots }}</td>
+                        <td>{{ overview_volume_data.totalSnapshotsUsed | persianNumber }}</td>
+                        <td>{{ overview_volume_data.maxTotalSnapshots | persianNumber }}</td>
                     </tr>
                     <tr>
                         <td>Volume Storage (GB)</td>
-                        <td>{{ overview_volume_data.totalGigabytesUsed }}</td>
-                        <td>{{ overview_volume_data.maxTotalVolumeGigabytes }}</td>
+                        <td>{{ overview_volume_data.totalGigabytesUsed | persianNumber }}</td>
+                        <td>{{ overview_volume_data.maxTotalVolumeGigabytes | persianNumber }}</td>
                     </tr>
                     </tbody>
                 </table>
