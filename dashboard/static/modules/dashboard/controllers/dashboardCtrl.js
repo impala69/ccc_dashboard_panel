@@ -8,6 +8,10 @@ angular.module("dashboard")
 
         };
 
+        $scope.logout = function () {
+            $state.go("login");
+        };
+
         $rootScope.$on('$stateChangeStart',
             function (event, toState, toParams, fromState, fromParams, options) {
                 $rootScope.is_page_loading = true;

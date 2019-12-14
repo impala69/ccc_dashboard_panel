@@ -14,7 +14,7 @@ POWER_STATES = [
     'RUNNING',
     'PAUSED',
     'SHUTDOWN',
-    'CRASHED',
+    'Shutdown',
     'SUSPENDED'
 ]
 
@@ -108,6 +108,9 @@ class VPS(APIView):
                 ip_address_dict = ip_address_dict[0]['addr']
             else:
                 ip_address_dict = []
+
+            if item['status'] == "SHUTOFF":
+                item['status'] = "Shutoff"
             serialized_vps_data.append({
                 "id": item['id'],
                 "instance_name": item['name'],
