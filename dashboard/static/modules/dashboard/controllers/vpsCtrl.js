@@ -152,12 +152,14 @@ angular.module("dashboard")
                             $scope.console_url = data['data']['console_url'];
                             $rootScope.open_modal("console_show");
                         }
+                        $rootScope.open_modal("success_message");
                     }
                     else if (response === 401) {
                         $state.go("login");
                     }
                 }, function (error) {
-                    console.log(error);
+                    $scope.error_message = "خطای سرور رخ داده است. با پشتیبانی تماس بگیرید.";
+                    $rootScope.open_modal("error_message");
                 });
         };
 

@@ -65,7 +65,10 @@ class Login(APIView):
         response_data = HorizonServiceAPI("http://10.254.254.201:5000/v3/auth/tokens",
                                           payload=login_data, headers=headers).post_request_handler()
         response_data_json = response_data.json()
-        project_id = response_data_json['token']['project']['id']
+        try:
+            project_id = response_data_json['token']['project']['id']
+        except:
+            project_id = ""
         user_obj = response_data_json['token']['user']
         username = user_obj['name']
         user_id = user_obj['id']
@@ -189,11 +192,10 @@ class VPSDetail(APIView):
         }
 
         payload = rec_data['action_data']
-
         response_data_vps_action = HorizonServiceAPI("http://10.254.254.201:8774/v2.1/servers/" + server_id + "/action",
                                                      headers=headers, payload=payload).post_request_handler()
 
-        if payload['os-getVNCConsole']:
+        if 'os-getVNCConsole' in payload:
             return Response(
                 data={'response_code': 200, 'console_url': response_data_vps_action.json()['console']['url']})
 

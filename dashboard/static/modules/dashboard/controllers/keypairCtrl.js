@@ -27,6 +27,16 @@ angular.module("dashboard")
                 });
         };
 
+        $scope.copy_to_clipboard = function (input_id) {
+            jQuery.noConflict();
+            (function ($) {
+                var copyText = document.getElementById(input_id);
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+                document.execCommand("copy");
+            })(jQuery);
+        };
+
         $scope.show_keypair_detail = function (keypair_name) {
             dashboardHttpRequest.get_key_pair(keypair_name)
                 .then(function (data) {

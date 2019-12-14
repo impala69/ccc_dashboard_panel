@@ -52,10 +52,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p class="public_key"><span class="font-weight-bold">Public Key</span> : {{ new_created_keypair.public_key }}
-                    </p>
-                    <p class="public_key"><span class="font-weight-bold">Private Key</span> : {{ new_created_keypair.private_key }}
-                    </p>
+                    <p class="font-weight-bold float-left">Public Key</p>
+                    <button id="public_key_button" class="btn btn-info" ng-click="copy_to_clipboard('public_key')">کپی کردن کلید عمومی</button>
+                    <textarea rows="8" id="public_key" class="form-control text-left">{{ new_created_keypair.public_key }}</textarea>
+                    <br>
+                    <p class="font-weight-bold float-left">Private Key</p>
+                    <button id="private_key_button" class="btn btn-info" ng-click="copy_to_clipboard('private_key')">کپی کردن کلید خصوصی</button>
+                    <textarea rows="12" id="private_key" class="form-control text-left">{{ new_created_keypair.private_key }}</textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">بستن</button>

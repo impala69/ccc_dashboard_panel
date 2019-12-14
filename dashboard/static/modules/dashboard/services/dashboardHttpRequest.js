@@ -28,6 +28,31 @@ angular.module('dashboard')
                 })
                     .then(angular.bind(this, function (data, status, headers, config) {
                         deferred.resolve(data, status);
+                    }))
+                    .catch(angular.bind(this, function (data, status, headers, config) {
+                        console.log("error syncing with: " + url);
+
+                        // Set request status
+                        if (data) {
+                            data.status = status;
+                        }
+
+                        if (status == 0) {
+                            if (data == "") {
+                                data = {};
+                                data['status'] = 0;
+                                data['non_field_errors'] = ["Could not connect. Please try again."];
+                            }
+                            // or if the data is null, then there was a timeout.
+                            if (data == null) {
+                                // Inject a non field error alerting the user
+                                // that there's been a timeout error.
+                                data = {};
+                                data['status'] = 0;
+                                data['non_field_errors'] = ["Server timed out. Please try again."];
+                            }
+                        }
+                        deferred.reject(data, status, headers, config);
                     }));
                 return deferred.promise;
             },
@@ -182,7 +207,6 @@ angular.module('dashboard')
                     'data': data
                 });
             }
-
 
 
         };

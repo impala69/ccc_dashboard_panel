@@ -267,10 +267,9 @@ form {
     text-align: right;
 }
 
-.table td{
+.table td {
     vertical-align: middle !important;
 }
-
 
 .status-badge {
     padding: 1em !important;
@@ -291,4 +290,15 @@ form {
     background-size: 3.5em 3.5em;
     background-repeat: no-repeat;
     left: 48%;
+}
+
+#private_key_button, #public_key_button {
+    float: right;
+    font-size: 11px !important;
+    background-color: #2d4159 !important;
+    border-color: #2d4159 !important;
+}
+
+#private_key, #public_key {
+    font-size: 12px;
 }

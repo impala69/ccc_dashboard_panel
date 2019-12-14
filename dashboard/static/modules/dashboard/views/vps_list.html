@@ -1,4 +1,42 @@
 <div ng-controller="vpsCtrl" class="ccc_content_holder">
+    <div class="modal" tabindex="-1" role="dialog" id="success_message">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">پیام موفقیت</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img class="img-fluid mx-auto d-block" style="width: 5em" src="static/src/img/checked.png">
+                    <p class="text-center mt-3">اقدام شما با موفقیت انجام شد. در صورت به روز نشدن خودکار برای به روز رسانی وضعیت سرورها از دکمه‌ی مربوطه استفاده کنید.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="error_message">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">خطای سرور</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img class="img-fluid mx-auto d-block" style="width: 5em" src="static/src/img/cancel.png">
+                    <p class="text-center mt-3">{{ error_message }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal" tabindex="-1" role="dialog" id="instance_delete">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
