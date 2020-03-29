@@ -6,7 +6,7 @@ angular.module("dashboard")
                 "username": '',
                 "password": ''
             };
-            console.log(22);
+            console.log($location.absUrl()[$location.absUrl().lastIndexOf('/')-1]);
             $rootScope.get_today_var = $scope.get_today();
             if ($location.absUrl()[$location.absUrl().lastIndexOf('/')-1] !== '#'){
                 $state.go("login");
