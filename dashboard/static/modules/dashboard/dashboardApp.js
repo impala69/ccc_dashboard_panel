@@ -19,7 +19,7 @@ myApp.config(function ($stateProvider, $authProvider) {
     var login = {
         name: 'login',
         url: '/login',
-        templateUrl: 'static/modules/dashboard/views/login.html'
+        templateUrl: '/ccc_dashboard_panel/dashboard/static/modules/dashboard/views/login.html'
     };
     var dashboard = {
         name: 'dashboard',
