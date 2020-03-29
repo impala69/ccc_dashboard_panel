@@ -9,6 +9,7 @@ angular.module("dashboard")
             $rootScope.get_today_var = $scope.get_today();
             if ($location.absUrl()[$location.absUrl().lastIndexOf('/')-1] !== '#'){
                 $state.go("login");
+                console.log(1);
             }
         };
         $scope.send_login_data = function () {
