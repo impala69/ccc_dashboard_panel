@@ -1,7 +1,7 @@
 angular.module('dashboard')
     .service('dashboardHttpRequest', function dashboardHttpRequest($q, $http, $auth, $cookies) {
         var service = {
-            'API_URL': window.location.origin + "/panel",
+            'API_URL': window.location.origin,
             'use_session': false,
             'authenticated': null,
             'authPromise': null,
