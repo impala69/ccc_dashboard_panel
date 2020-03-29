@@ -1,5 +1,5 @@
 angular.module("dashboard")
-    .controller("mainCtrl", function ($scope, $interval, $rootScope, $state) {
+    .controller("mainCtrl", function ($scope, $interval, $rootScope, $state, $location) {
         var initialize = function () {
             $rootScope.is_page_loading = true;
             $scope.user_login_data = {
@@ -7,6 +7,9 @@ angular.module("dashboard")
                 "password": ''
             };
             $rootScope.get_today_var = $scope.get_today();
+            if ($location.absUrl()[$location.absUrl().lastIndexOf('/')-1] !== '#'){
+                $state.go("login");
+            }
         };
         $scope.send_login_data = function () {
 
