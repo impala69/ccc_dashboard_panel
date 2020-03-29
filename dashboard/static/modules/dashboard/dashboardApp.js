@@ -19,42 +19,42 @@ myApp.config(function ($stateProvider, $authProvider) {
     var login = {
         name: 'login',
         url: '/login',
-        templateUrl: 'static/modules/dashboard/views/login.html'
+        templateUrl: 'ccc_dashboard_panel/static/modules/dashboard/views/login.html'
     };
     var dashboard = {
         name: 'dashboard',
         url: '/dashboard',
-        templateUrl: 'static/modules/dashboard/views/dashboard.html'
+        templateUrl: 'ccc_dashboard_panel/static/modules/dashboard/views/dashboard.html'
     };
 
     var vps_list = {
         name: 'dashboard.vps_list',
         url: '/vps_list',
-        templateUrl: 'static/modules/dashboard/views/vps_list.html'
+        templateUrl: 'ccc_dashboard_panel/modules/dashboard/views/vps_list.html'
     };
 
     var overview = {
         name: 'dashboard.overview',
         url: '/overview',
-        templateUrl: 'static/modules/dashboard/views/overview.html'
+        templateUrl: 'ccc_dashboard_panel/modules/dashboard/views/overview.html'
     };
 
     var key_pairs = {
         name: 'dashboard.key_pairs',
         url: '/key_pairs',
-        templateUrl: 'static/modules/dashboard/views/key_pairs.html'
+        templateUrl: 'ccc_dashboard_panel/modules/dashboard/views/key_pairs.html'
     };
 
     var volumes = {
         name: 'dashboard.volumes',
         url: '/volumes',
-        templateUrl: 'static/modules/dashboard/views/volumes.html'
+        templateUrl: 'ccc_dashboard_panel/modules/dashboard/views/volumes.html'
     };
 
     var privacy = {
         name: 'dashboard.privacy',
         url: '/privacy',
-        templateUrl: 'static/modules/dashboard/views/privacy.html'
+        templateUrl: 'ccc_dashboard_panel/modules/dashboard/views/privacy.html'
     };
 
     $stateProvider.state(login);

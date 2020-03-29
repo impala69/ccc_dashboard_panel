@@ -6,11 +6,9 @@ angular.module("dashboard")
                 "username": '',
                 "password": ''
             };
-            console.log($location.absUrl()[$location.absUrl().lastIndexOf('/')-1]);
             $rootScope.get_today_var = $scope.get_today();
             if ($location.absUrl()[$location.absUrl().lastIndexOf('/')-1] !== '#'){
                 $state.go("login");
-                console.log(1);
             }
         };
         $scope.send_login_data = function () {
