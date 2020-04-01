@@ -6,7 +6,7 @@
     --border_green: #65CCB8;
     --black_ccc: #182628;
     --sormeiei: #2d4159;
-    --my_light_gray: lightgray;
+    --my_light_gray: #00CED1;
 }
 
 body {
@@ -19,7 +19,7 @@ body h1, h2, h3, h4, h5, h6, label, button, input, a, th, td {
 }
 
 .ccc_login_container {
-    background-color: var(--dark_blue);
+    background-color: #00CED1;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -27,7 +27,7 @@ body h1, h2, h3, h4, h5, h6, label, button, input, a, th, td {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 180px;
+    padding: 160px;
     min-height: 100vh;
 }
 
